@@ -7,7 +7,7 @@
     },
     "data_loader": {
         "type": "USERDEFINED",
-        "args":{
+        "args": {
             "data_dir": "data/",
             "batch_size": 32,
             "shuffle": true,
@@ -17,7 +17,7 @@
     },
     "optimizer": {
         "type": "Adam",
-        "args":{
+        "args": {
             "lr": 0.001,
             "weight_decay": 0,
             "amsgrad": true
@@ -32,7 +32,7 @@
         "args": {
             "patience": 5,
             "factor": 0.2,
-            "min_lr": 1e-6
+            "min_lr": 1e-06
         }
     },
     "trainer": {
@@ -42,6 +42,6 @@
         "verbosity": 2,
         "monitor": "min val_loss",
         "early_stop": 8,
-        "tensorboard": false
+        "tensorboard": true
     }
 }

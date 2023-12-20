@@ -4,8 +4,17 @@ import pandas as pd
 from pathlib import Path
 from itertools import repeat
 from collections import OrderedDict
-
-
+import os, shutil,sys
+def mkdir(path,rm=False):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    else:
+        if rm:
+            print(f'save folder {path} exists, purging')
+            shutil.rmtree(path)
+            os.mkdir(path)
+        else:
+            print(f'folder {path}  exists')
 def ensure_dir(dirname):
     dirname = Path(dirname)
     if not dirname.is_dir():
