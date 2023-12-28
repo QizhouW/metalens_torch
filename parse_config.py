@@ -26,8 +26,6 @@ class ConfigParser:
         save_dir = Path(self.config['trainer']['save_dir'])
 
         exper_name = self.config['name']
-        if run_id == 'timestamp': # use timestamp as default run-id
-            run_id = datetime.now().strftime(r'%m%d_%H%M%S')
         self._save_dir = save_dir / 'models' / exper_name / run_id
         self._log_dir = save_dir / 'log' / exper_name / run_id
 
@@ -37,7 +35,7 @@ class ConfigParser:
         self.log_dir.mkdir(parents=True, exist_ok=exist_ok)
 
         # save updated config file to the checkpoint dir
-        write_json(self.config, self.save_dir / 'config.json')
+        self.save_config()
 
         # configure logging module
         setup_logging(self.log_dir)
@@ -47,8 +45,11 @@ class ConfigParser:
             2: logging.DEBUG
         }
 
+    def save_config(self):
+        write_json(self.config, self.save_dir / 'config.json')
+
     @classmethod
-    def from_args(cls, args, options='',run_id='default'):
+    def from_args(cls, args, options=''):
         """
         Initialize this class from some cli arguments. Used in train, test.
         """
@@ -67,7 +68,8 @@ class ConfigParser:
             assert args.config is not None, msg_no_cfg
             resume = None
             cfg_fname = Path(args.config)
-        
+        if args.run_id is None:
+            args.run_id = datetime.now().strftime(r'%m%d_%H%M%S')
         config = read_json(cfg_fname)
         if args.config and resume:
             # update new config for fine-tuning
@@ -76,7 +78,7 @@ class ConfigParser:
         # parse custom cli options into dictionary
         modification = {opt.target : getattr(args, _get_opt_name(opt.flags)) for opt in options}
         print(modification)
-        return cls(config, resume, modification,run_id)
+        return cls(config, resume, modification,args.run_id)
 
     def init_obj(self, name, module, *args, **kwargs):
         """

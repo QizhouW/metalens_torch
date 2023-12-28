@@ -1,47 +1,65 @@
 {
-    "name": "USERDEFINED",
-    "n_gpu": 1,
-    "arch": {
-        "type": "USERDEFINED",
-        "args": {}
-    },
-    "data_loader": {
-        "type": "USERDEFINED",
-        "args":{
-            "data_dir": "data/",
-            "batch_size": 32,
-            "shuffle": true,
-            "validation_split": 0.1,
-            "num_workers": 2
-        }
-    },
-    "optimizer": {
-        "type": "Adam",
-        "args":{
-            "lr": 0.001,
-            "weight_decay": 0,
-            "amsgrad": true
-        }
-    },
-    "loss": "mse",
-    "metrics": [
-        "mae"
-    ],
-    "lr_scheduler": {
-        "type": "ReduceLROnPlateau",
-        "args": {
-            "patience": 5,
-            "factor": 0.2,
-            "min_lr": 1e-6
-        }
-    },
-    "trainer": {
-        "epochs": 100,
-        "save_dir": "res/",
-        "save_period": 10,
-        "verbosity": 2,
-        "monitor": "min val_loss",
-        "early_stop": 8,
-        "tensorboard": false
+  "name": "RegressionCNN",
+  "n_gpu": 1,
+  "arch": {
+    "type": "MyRegressionCNN",
+    "args": {
+      "spectral_channels": 64,
+      "out_pts": 1
     }
+  },
+  "data_loader": {
+    "type": "PointWiseDataset",
+    "args": {
+      "data_dir": "/home/wjoe/projects/digilens/avocado/",
+      "csv_file": "data.csv",
+      "batch_size": 16,
+      "validation_split": 0.0,
+      "num_workers": 4,
+      "y_norm_factor": 22.5,
+      "image_sample_pts": 8,
+      "spectral_channels": 64,
+      "shuffle": true,
+      "avg_weight_bond": [
+          0.7,
+          1.3
+        ],
+      "img_transforms": {
+        "crop_size": 224,
+        "img_size": 256,
+        "random_rotation": 0,
+        "intensity_threshold": 1.25,
+        "disable_transforms": false
+      }
+    }
+  },
+  "optimizer": {
+    "type": "Adam",
+    "args": {
+      "lr": 0.001,
+      "weight_decay": 0,
+      "amsgrad": true
+    }
+  },
+  "loss": "mse",
+  "metrics": [
+    "mae"
+  ],
+  "lr_scheduler": {
+    "type": "ReduceLROnPlateau",
+    "args": {
+      "patience": 4,
+      "factor": 0.2,
+      "min_lr": 1e-6
+    }
+  },
+  "trainer": {
+    "epochs": 100,
+    "save_dir": "res/",
+    "save_period": 20,
+    "verbosity": 2,
+    "monitor": "min val_loss",
+    "early_stop": 10,
+    "tensorboard": true
+  }
 }

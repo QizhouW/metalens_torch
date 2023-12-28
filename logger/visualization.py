@@ -1,7 +1,6 @@
 import importlib
 from datetime import datetime
 
-
 class TensorboardWriter():
     def __init__(self, log_dir, logger, enabled):
         self.writer = None
