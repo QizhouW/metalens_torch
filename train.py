@@ -79,9 +79,17 @@ if __name__ == '__main__':
     options = [
         CustomArgs(['--lr', '--learning_rate'], type=float, target='optimizer;args;lr'),
         CustomArgs(['--bs', '--batch_size'], type=int, target='data_loader;args;batch_size'),
+<<<<<<< HEAD
         CustomArgs(['--vs', '--validation_split'], type=float, target='data_loader;args;validation_split')
+=======
+        CustomArgs(['--vs', '--validation_split'], type=float, target='data_loader;args;split_method')
+>>>>>>> 91e372f803af7f0773d825ed9803f1d6054c13b6
     ]
 
     config = ConfigParser.from_args(args, options)
     train(config)
+<<<<<<< HEAD
 
+=======
+    # test(config)
+>>>>>>> 91e372f803af7f0773d825ed9803f1d6054c13b6
