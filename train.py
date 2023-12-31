@@ -80,8 +80,8 @@ if __name__ == '__main__':
         CustomArgs(['--lr', '--learning_rate'], type=float, target='optimizer;args;lr'),
         CustomArgs(['--bs', '--batch_size'], type=int, target='data_loader;args;batch_size'),
         CustomArgs(['--vs', '--validation_split'], type=float, target='data_loader;args;validation_split')
-    ]
+
+        CustomArgs(['--vs', '--validation_split'], type=float, target='data_loader;args;split_method')]
 
     config = ConfigParser.from_args(args, options)
     train(config)
-
